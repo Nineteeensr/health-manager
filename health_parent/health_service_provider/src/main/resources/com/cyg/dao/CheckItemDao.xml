@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cyg.dao.CheckItemDao">
+    <!-- 插入检查项数据 -->
+    <insert id="add" parameterType="com.cyg.pojo.CheckItem">
+        insert into t_checkitem(code, name, sex, age, price, type, remark, attention)
+        values (#{code}, #{name}, #{sex}, #{age}, #{price}, #{type}, #{remark}, #{attention})
+    </insert>
+    <!-- 动态修改 -->
+    <update id="updateCheckItem" parameterType="com.cyg.pojo.CheckItem">
+        update t_checkitem
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete
+        from t_checkitem
+        where id = #{id}
+    </delete>
+    <!-- 动态查询检查项数据 -->
+    <select id="selectAllCheckItem" parameterType="string" resultType="com.cyg.pojo.CheckItem">
+        select * from t_checkitem
+        <where>
+            <if test="keyword != null and keyword!=''">
+                and code = #{keyword} or `name` like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+    <!-- 根据id查询检查项详情 -->
+    <select id="queryCheckItem" parameterType="integer" resultType="com.cyg.pojo.CheckItem">
+        select *
+        from t_checkitem
+        where id = #{id}
+    </select>
+    <!-- 根据检查项id查询是否关联 -->
+    <select id="findCountByCheckItemId" resultType="java.lang.Long">
+        select count(*)
+        from t_checkgroup_checkitem
+        where checkitem_id = #{id}
+    </select>
+    <!-- 查询所有 -->
+    <select id="findAll" resultType="com.cyg.pojo.CheckItem">
+        select * from t_checkitem
+    </select>
+    <!-- 根据检查组id查询检查项多对多关系 -->
+    <select id="findCheckItemById" parameterType="int" resultType="com.cyg.pojo.CheckItem">
+        SELECT * from t_checkitem
+        where id
+        in (select checkitem_id from t_checkgroup_checkitem where checkgroup_id=#{id})
+    </select>
+</mapper>
