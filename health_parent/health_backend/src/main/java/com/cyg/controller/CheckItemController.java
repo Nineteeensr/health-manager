@@ -50,7 +50,6 @@ public class CheckItemController {
     @PreAuthorize("hasAuthority('CHECKITEM_QUERY')")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
         PageResult pageResult = checkItemService.pageQuery(queryPageBean);
-        pageResult.getRows().forEach(System.out::println);
         return pageResult;
     }
 

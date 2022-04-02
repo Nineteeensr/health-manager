@@ -35,15 +35,14 @@ public class CheckGroupServiceImpl implements CheckGroupService {
     public void add(CheckGroup checkGroup, Integer[] checkitemIds) {
         // 新增检查组，操作t_checkgroup表
         checkGroupDao.add(checkGroup);
-        //设置检查组和检查项的多对多关联关系，操作t_checkgroup_checkitem表
         Integer checkGroupId = checkGroup.getId();
-        System.out.println("checkGroupId = " + checkGroupId);
+        //设置检查组和检查项的多对多关联关系，操作t_checkgroup_checkitem表
         setCheckGroupAndCheckItem(checkGroupId, checkitemIds);
     }
 
     /**
-     * 在中间表中添加数据
-     *
+     * 给中间表中添加数据
+     * 添加 组 和 项 的对应关系
      * @param checkGroupId
      * @param checkitemIds
      */

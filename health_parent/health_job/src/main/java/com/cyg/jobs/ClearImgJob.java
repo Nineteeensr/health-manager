@@ -27,7 +27,7 @@ public class ClearImgJob {
                 QiNiuUtil.deleteFileFromQiniu(picName);
                 // 删除redis中图片名称
                 jedisPool.getResource().srem(RedisConstant.SETMEAL_PIC_RESOURCES, picName);
-                System.out.println("自定义任务执行，正在清理垃圾图片"+picName);
+                System.out.println(System.currentTimeMillis()+"：自定义任务执行，清理垃圾图片："+picName);
             }
         }
     }
